@@ -10,7 +10,7 @@ if __name__ == '__main__':
     print("6. test-nm-new-fot")
     print("7. test-strings-fot")
     file_number = input("What's the file number that you want to triage?")
-    print(file_number)
+    print(file_number == '6')
     if file_number == '6':
         new_fot_obj = NewFot()
         new_fot_obj.start()
