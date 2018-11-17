@@ -12,8 +12,9 @@ class GDB_Wrapper(object):
         self.crash_files_triage_dir = crash_files_triage_dir
 
     def start_running_gdb(self):
-        start_command = "gdb %s" % self.test_file_name
-        gdb = subprocess.Popen([start_command], stdin=subprocess.PIPE)
+        start_command = "gdb"
+        gdb = subprocess.Popen([start_command, self.test_file_name], stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.get_and_log_bt(gdb)
 
     def get_and_log_bt(self, gdb):
