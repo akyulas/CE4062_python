@@ -1,4 +1,4 @@
-from script.new_fot import NewFot
+from .new_fot import NewFot
 
 if __name__ == '__main__':
     print("Please choose a file number to triage")
@@ -11,4 +11,4 @@ if __name__ == '__main__':
     print("7. test-strings-fot")
     file_name = input("What's the file number that you want to triage?")
     if file_name == "6" :
-        NewFot.start()
+        new_fot_obj = NewFot()
