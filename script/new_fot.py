@@ -16,4 +16,4 @@ class NewFot(object):
         gdb_wrapper = GDB_Wrapper(self.new_fot_file_name,
                                   self.new_fot_run_command, crash_files_iter,
                                   self.new_fot_triage_directory)
-        gdb_wrapper.start_running
+        gdb_wrapper.start_running()
