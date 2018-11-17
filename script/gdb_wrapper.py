@@ -2,7 +2,7 @@ import subprocess
 from shutil import copyfile
 from .parse_gdb import GDB_Parser
 import os
-import time
+from time import sleep
 
 class GDB_Wrapper(object):
 
@@ -22,11 +22,17 @@ class GDB_Wrapper(object):
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
             gdb.stdin.write(b"set logging overwrite on\n")
+            sleep(0.5)
             gdb.stdin.write(b"set logging file mylog.txt\n")
+            sleep(0.5)
             gdb.stdin.write(b"set logging on\n")
+            sleep(0.5)
             gdb.stdin.write(temp_run_command.encode('utf-8'))
+            sleep(0.5)
             gdb.stdin.write(b"bt\n")
+            sleep(0.5)
             gdb.stdin.write(b"set logging off\n")
+            sleep(0.5)
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
