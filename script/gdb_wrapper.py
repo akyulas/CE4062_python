@@ -41,7 +41,8 @@ class GDB_Wrapper(object):
         destination_directory = self.crash_files_triage_dir + type_of_bug + \
                                 "/" + crash_file_name + "/"
         try:
-            os.makedirs(destination_directory)
+            if not os.path.exists(destination_directory):
+                os.makedirs(destination_directory)
         except:
             raise OSError("directory creation failed")
         return destination_directory
