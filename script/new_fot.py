@@ -11,6 +11,7 @@ class NewFot(object):
 
     def start(self):
         crash_files = glob.glob(self.new_fot_crash_directory)
+        print(crash_files)
         crash_files_iter = iter(crash_files)
         gdb_wrapper = GDB_Wrapper(self.new_fot_file_name,
                                   self.new_fot_run_command, crash_files_iter,
