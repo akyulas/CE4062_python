@@ -12,3 +12,4 @@ if __name__ == '__main__':
     file_name = input("What's the file number that you want to triage?")
     if file_name == "6" :
         new_fot_obj = NewFot()
+        new_fot_obj.start()
