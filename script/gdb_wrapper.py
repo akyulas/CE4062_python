@@ -2,6 +2,7 @@ import subprocess
 from shutil import copyfile
 from .parse_gdb import GDB_Parser
 import os
+import time
 
 class GDB_Wrapper(object):
 
@@ -24,6 +25,7 @@ class GDB_Wrapper(object):
             gdb.stdin.write(b"set logging file mylog.txt\n")
             gdb.stdin.write(b"set logging on\n")
             gdb.stdin.write(temp_run_command.encode('utf-8'))
+            time.sleep(1)
             gdb.stdin.write(b"bt\n")
             gdb.stdin.write(b"set logging off\n")
             type_of_bug = self.get_type_of_bug()
