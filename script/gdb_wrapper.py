@@ -27,7 +27,7 @@ class GDB_Wrapper(object):
             gdb.stdin.write(b"bt\n")
             gdb.stdin.write(b"set logging off\n")
             type_of_bug = self.get_type_of_bug()
-            crash_file_name = self.get_name_of_crash_file()
+            crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
             self.copy_log_file(dest_dir, "mylog.txt")
             self.copy_crash_input(dest_dir, crash_file, crash_file_name)
