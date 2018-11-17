@@ -44,6 +44,7 @@ class GDB_Wrapper(object):
             os.makedirs(destination_directory)
         except:
             raise OSError("directory creation failed")
+        return destination_directory
 
     def copy_log_file(self, destination_directory, log_file):
         back_trace_file = destination_directory + "bt.txt"
