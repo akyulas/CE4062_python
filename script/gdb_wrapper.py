@@ -20,12 +20,12 @@ class GDB_Wrapper(object):
     def get_and_log_bt(self, gdb):
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
-            gdb.stdin.write("set logging overwrite on\n")
-            gdb.stdin.write("set logging file mylog.txt\n")
-            gdb.stdin.write("set logging on\n")
-            gdb.stdin.write(temp_run_command)
-            gdb.stdin.write("bt\n")
-            gdb.stdin.write("set logging off\n")
+            gdb.stdin.write(b"set logging overwrite on\n")
+            gdb.stdin.write(b"set logging file mylog.txt\n")
+            gdb.stdin.write(b"set logging on\n")
+            gdb.stdin.write(temp_run_command.encode('utf-8'))
+            gdb.stdin.write(b"bt\n")
+            gdb.stdin.write(b"set logging off\n")
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file()
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
