@@ -1,3 +1,5 @@
+from script.new_fot import NewFot
+
 if __name__ == '__main__':
     print("Please choose a file number to triage")
     print("1. test-cxxfilt-fot")
@@ -8,4 +10,5 @@ if __name__ == '__main__':
     print("6. test-nm-new-fot")
     print("7. test-strings-fot")
     file_name = input("What's the file number that you want to triage?")
-    print(file_name)
+    if file_name == "6" :
+        NewFot.start()
