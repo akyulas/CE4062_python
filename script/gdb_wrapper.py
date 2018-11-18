@@ -28,6 +28,11 @@ class GDB_Wrapper(object):
             gdb.sendline(b"set logging on\n")
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             gdb.sendline(temp_run_command.encode('utf-8'))
+            try:
+                gdb.expect(['The program being debugged', pexpect.EOF], timeout=20)
+                gdb.sendline(b'y\n')
+            except:
+                pass
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             gdb.sendline(b"bt\n")
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
