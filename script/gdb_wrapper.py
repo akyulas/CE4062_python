@@ -2,6 +2,7 @@ import subprocess
 from shutil import copyfile
 from .parse_gdb import GDB_Parser
 import os
+from time import sleep
 
 class GDB_Wrapper(object):
 
@@ -21,7 +22,6 @@ class GDB_Wrapper(object):
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
             self.write_to_gdb(gdb, b"set logging overwrite on\n")
-            print("hello")
             self.write_to_gdb(gdb, b"set logging file mylog.txt\n")
             self.write_to_gdb(gdb, b"set logging on\n")
             self.write_to_gdb(gdb, temp_run_command.encode('utf-8'))
@@ -35,8 +35,7 @@ class GDB_Wrapper(object):
 
     def write_to_gdb(self, gdb, command):
         gdb.stdin.write(command)
-        gdb.stdin.flush()
-        self.wait_gdb_prompt(gdb)
+        sleep(2)
 
     def wait_gdb_prompt(self, gdb):
         while True:
