@@ -3,6 +3,7 @@ from shutil import copyfile
 from .parse_gdb import GDB_Parser
 import os
 from time import sleep
+import pexpect
 
 class GDB_Wrapper(object):
 
@@ -13,30 +14,30 @@ class GDB_Wrapper(object):
         self.crash_files_triage_dir = crash_files_triage_dir
 
     def start_running_gdb(self):
-        start_command = "gdb"
-        gdb = subprocess.Popen([start_command, self.test_file_name], stdin=subprocess.PIPE,
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        sleep(2)
+        gdb = pexpect.spawn("gdb %s" % self.test_file_name)
         self.get_and_log_bt(gdb)
 
     def get_and_log_bt(self, gdb):
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
-            self.write_to_gdb(gdb, b"set logging overwrite on\n")
-            self.write_to_gdb(gdb, b"set logging file mylog.txt\n")
-            self.write_to_gdb(gdb, b"set logging on\n")
-            self.write_to_gdb(gdb, temp_run_command.encode('utf-8'))
-            self.write_to_gdb(gdb, b"bt\n")
-            self.write_to_gdb(gdb, b"set logging off\n")
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(b"set logging overwrite on\n")
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(b"set logging file mylog.txt\n")
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(b"set logging on\n")
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(temp_run_command.encode('utf-8'))
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(b"bt\n")
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(b"set logging off\n")
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
             self.copy_log_file(dest_dir, "mylog.txt")
             self.copy_crash_input(dest_dir, crash_file, crash_file_name)
-
-    def write_to_gdb(self, gdb, command):
-        gdb.stdin.write(command)
-        sleep(2)
 
     def get_type_of_bug(self):
         gdb_parser = GDB_Parser("mylog.txt", "Program received signal ")
