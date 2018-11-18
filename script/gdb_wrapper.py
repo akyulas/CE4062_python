@@ -35,16 +35,9 @@ class GDB_Wrapper(object):
 
     def write_to_gdb(self, gdb, command):
         gdb.stdin.write(command)
-        gdb.stdin.flush()
-        print('lol')
         while True:
             sleep(0.5)
-            print('sleeping beauty')
-            print('flushy flushy')
-            output = gdb.stdout.read()
-            print('print output')
-            print(output)
-            if output:
+            if gdb.poll() is not None:
                 break
         print("finished writing")
 
