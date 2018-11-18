@@ -33,9 +33,9 @@ class GDB_Wrapper(object):
                 gdb.sendline(b'y\n')
             except:
                 pass
-            self.press_return_until_complete(gdb)
-            gdb.sendline(b"bt\n")
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.sendline(b"bt\n")
+            self.press_return_until_complete(gdb)
             gdb.sendline(b"set logging off\n")
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             type_of_bug = self.get_type_of_bug()
@@ -46,7 +46,7 @@ class GDB_Wrapper(object):
 
     def press_return_until_complete(self, gdb):
         try:
-            gdb.expect('Type <return>', pexpect.EOF, timeout=20)
+            gdb.expect('Type <return>', pexpect.EOF, timeout=3)
             gdb.sendline(b"\n")
         except:
             return
