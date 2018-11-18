@@ -43,6 +43,7 @@ class GDB_Wrapper(object):
             gdb.stdout.flush()
             print('flushy flushy')
             output = gdb.stdout.read()
+            print('print output')
             print(output)
             if output:
                 break
