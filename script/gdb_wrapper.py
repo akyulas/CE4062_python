@@ -40,6 +40,7 @@ class GDB_Wrapper(object):
             sleep(0.5)
             gdb.stdout.flush()
             output = gdb.stdout.read()
+            print(output)
             if output:
                 break
         print("finished writing")
