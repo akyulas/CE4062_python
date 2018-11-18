@@ -35,7 +35,7 @@ class GDB_Wrapper(object):
 
     def write_to_gdb(self, gdb, command):
         gdb.stdin.write(command)
-        sleep(2)
+        self.wait_gdb_prompt(gdb)
 
     def wait_gdb_prompt(self, gdb):
         while True:
