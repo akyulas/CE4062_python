@@ -52,11 +52,12 @@ class GDB_Wrapper(object):
             self.copy_crash_input(dest_dir, crash_file, crash_file_name)
 
     def press_return_until_complete(self, gdb):
-        try:
-            gdb.expect('Type <return>', pexpect.EOF, timeout=3)
-            gdb.sendline(b"\n")
-        except:
-            return
+        while True:
+            try:
+                gdb.expect('Type <return>', pexpect.EOF, timeout=3)
+                gdb.sendline(b"\n")
+            except:
+                break
 
     def get_type_of_bug(self):
         gdb_parser = GDB_Parser("mylog.txt", "Program received signal ")
