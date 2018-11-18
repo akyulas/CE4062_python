@@ -39,7 +39,9 @@ class GDB_Wrapper(object):
         print('lol')
         while True:
             sleep(0.5)
+            print('sleeping beauty')
             gdb.stdout.flush()
+            print('flushy flushy')
             output = gdb.stdout.read()
             print(output)
             if output:
