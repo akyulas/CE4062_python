@@ -23,7 +23,7 @@ class GDB_Wrapper(object):
             gdbmi.write("set logging overwrite on")
             gdbmi.write("set logging file mylog.txt")
             gdbmi.write("set logging on")
-            gdbmi.write(temp_run_command.encode)
+            gdbmi.write(temp_run_command)
             gdbmi.write("bt")
             gdbmi.write("set logging off")
             type_of_bug = self.get_type_of_bug()
