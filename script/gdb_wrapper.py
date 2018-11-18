@@ -36,6 +36,7 @@ class GDB_Wrapper(object):
     def write_to_gdb(self, gdb, command):
         gdb.stdin.write(command)
         gdb.stdin.flush()
+        print('lol')
         while True:
             sleep(0.5)
             gdb.stdout.flush()
