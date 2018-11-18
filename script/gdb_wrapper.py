@@ -18,10 +18,10 @@ class GDB_Wrapper(object):
         self.get_and_log_bt(gdb)
 
     def get_and_log_bt(self, gdb):
+        print('reached 1')
+        gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
-            print('reached 1')
-            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             gdb.sendline(b"set logging overwrite on\n")
             print('reached 2')
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
