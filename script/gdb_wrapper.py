@@ -30,6 +30,7 @@ class GDB_Wrapper(object):
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             gdb.sendline(temp_run_command.encode('utf-8'))
             try:
+                print('debug lul')
                 gdb.expect(['The program being debugged', pexpect.EOF], timeout=20)
                 gdb.sendline(b'y\n')
             except:
