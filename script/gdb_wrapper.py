@@ -16,6 +16,7 @@ class GDB_Wrapper(object):
         start_command = "gdb"
         gdb = subprocess.Popen([start_command, self.test_file_name], stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        sleep(2)
         self.get_and_log_bt(gdb)
 
     def get_and_log_bt(self, gdb):
@@ -35,11 +36,7 @@ class GDB_Wrapper(object):
 
     def write_to_gdb(self, gdb, command):
         gdb.stdin.write(command)
-        while True:
-            sleep(0.5)
-            if gdb.poll() is not None:
-                break
-        print("finished writing")
+        sleep(2)
 
     def get_type_of_bug(self):
         gdb_parser = GDB_Parser("mylog.txt", "Program received signal ")

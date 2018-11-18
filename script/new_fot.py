@@ -5,7 +5,7 @@ class NewFot(object):
 
     def __init__(self):
         self.new_fot_file_name = "test-nm-new-fot/nm-new"
-        self.new_fot_run_command = "run -C {}"
+        self.new_fot_run_command = "run -C {}\n"
         self.new_fot_crash_directory = "/home/docker/test-nm-new-fot/out*/crash/*"
         self.new_fot_triage_directory = "/home/docker/test-nm-new-fot/triage/"
 
