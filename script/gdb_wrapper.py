@@ -33,7 +33,7 @@ class GDB_Wrapper(object):
                 gdb.sendline(b'y\n')
             except:
                 pass
-            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            self.press_return_until_complete(gdb)
             gdb.sendline(b"bt\n")
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
             gdb.sendline(b"set logging off\n")
@@ -43,6 +43,13 @@ class GDB_Wrapper(object):
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
             self.copy_log_file(dest_dir, "mylog.txt")
             self.copy_crash_input(dest_dir, crash_file, crash_file_name)
+
+    def press_return_until_complete(self, gdb):
+        try:
+            gdb.expect('Type <return>', pexpect.EOF, timeout=20)
+            gdb.sendline(b"\n")
+        except:
+            return
 
     def get_type_of_bug(self):
         gdb_parser = GDB_Parser("mylog.txt", "Program received signal ")
