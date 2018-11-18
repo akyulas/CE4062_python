@@ -2,7 +2,6 @@ import subprocess
 from shutil import copyfile
 from .parse_gdb import GDB_Parser
 import os
-from pygdbmi.gdbcontroller import GdbController
 
 class GDB_Wrapper(object):
 
@@ -13,18 +12,21 @@ class GDB_Wrapper(object):
         self.crash_files_triage_dir = crash_files_triage_dir
 
     def start_running_gdb(self):
-        gdbmi = GdbController(gdb_path = 'gdb %s' % self.test_file_name)
-        self.get_and_log_bt(gdbmi)
+        start_command = "gdb"
+        gdb = subprocess.Popen([start_command, self.test_file_name], stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.get_and_log_bt(gdb)
 
-    def get_and_log_bt(self, gdbmi):
+    def get_and_log_bt(self, gdb):
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
-            gdbmi.write("set logging overwrite on")
-            gdbmi.write("set logging file mylog.txt")
-            gdbmi.write("set logging on")
-            gdbmi.write(temp_run_command)
-            gdbmi.write("bt")
-            gdbmi.write("set logging off")
+            gdb.stdin.write(b"set logging overwrite on\n")
+            gdb.stdin.write(b"set logging file mylog.txt\n")
+            gdb.stdin.write(b"set logging on\n")
+            gdb.stdin.write(temp_run_command.encode('utf-8'))
+            gdb.stdin.write(b"bt\n\n\n\n\n\n\n\n\n\n\n")
+            gdb.stdin.write(b"set logging off\n")
+            gdb.stdout.read()
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
