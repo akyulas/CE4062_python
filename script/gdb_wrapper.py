@@ -35,16 +35,12 @@ class GDB_Wrapper(object):
 
     def write_to_gdb(self, gdb, command):
         gdb.stdin.write(command)
-        self.wait_gdb_prompt(gdb)
-
-    def wait_gdb_prompt(self, gdb):
         while True:
-            output = gdb.stdout.readline()
-            output = output.rstrip()
-            if output == b"(gdb)":
+            sleep(0.5)
+            output = gdb.stdout.read()
+            if output:
                 break
-            else:
-                pass
+        print("finished writing")
 
     def get_type_of_bug(self):
         gdb_parser = GDB_Parser("mylog.txt", "Program received signal ")
