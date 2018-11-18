@@ -13,7 +13,7 @@ class GDB_Wrapper(object):
         self.crash_files_triage_dir = crash_files_triage_dir
 
     def start_running_gdb(self):
-        gdbmi = GdbController()
+        gdbmi = GdbController(verbose=True)
         gdbmi.write('-file-exec-file %s' % self.test_file_name)
         self.get_and_log_bt(gdbmi)
 
