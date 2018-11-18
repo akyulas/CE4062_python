@@ -26,7 +26,7 @@ class GDB_Wrapper(object):
             gdb.stdin.write(temp_run_command.encode('utf-8'))
             gdb.stdin.write(b"bt\n\n\n\n\n\n\n\n\n\n\n")
             gdb.stdin.write(b"set logging off\n")
-            gdb.stdout.read()
+            gdb.wait()
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
