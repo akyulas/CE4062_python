@@ -24,7 +24,10 @@ class GDB_Wrapper(object):
             temp_run_command = self.run_command.replace("{}", crash_file)
             gdb.sendline(b"set logging overwrite on\n")
             print('reached 2')
-            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            try:
+                gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
+            except:
+                gdb.sendline(b"\n")
             gdb.sendline(b"set logging file mylog.txt\n")
             print('reached 3')
             gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
