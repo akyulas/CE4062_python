@@ -31,7 +31,7 @@ class GDB_Wrapper(object):
             temp_run_command = self.run_command.replace("{}", crash_file)
             gdb.sendline("set logging on")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
-            gdb.sendline(temp_run_command.encode('utf-8'))
+            gdb.sendline(temp_run_command.encode)
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
             gdb.sendline("bt")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
