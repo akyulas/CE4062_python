@@ -18,31 +18,34 @@ class GDB_Wrapper(object):
         self.get_and_log_bt(gdb)
 
     def get_and_log_bt(self, gdb):
-        gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+        gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
         gdb.sendline(b"set logging overwrite on\n")
         gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
         gdb.sendline(b"set logging file mylog.txt\n")
-        gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+        gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
             gdb.sendline(b"set logging on\n")
             print('reached 1')
-            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            try:
+                gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
+            except:
+                gdb.sendline(b'\n')
             gdb.sendline(temp_run_command.encode('utf-8'))
             try:
                 print('debug lul')
-                gdb.expect(['The program being debugged', pexpect.EOF], timeout=20)
+                gdb.expect(['The program being debugged', pexpect.EOF], timeout=3)
                 gdb.sendline(b'y\n')
             except:
                 pass
             print('reached 2')
-            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
             gdb.sendline(b"bt\n")
             self.press_return_until_complete(gdb)
             print('bt over')
             gdb.sendline(b"set logging off\n")
             print ('reached 3')
-            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=20)
+            gdb.expect(['\(gdb\)', pexpect.EOF], timeout=3)
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
