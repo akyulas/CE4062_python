@@ -20,19 +20,32 @@ class GDB_Wrapper(object):
     def get_and_log_bt(self, gdb):
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
-            gdb.stdin.write(b"set logging overwrite on\n")
-            gdb.stdin.write(b"set logging file mylog.txt\n")
-            gdb.stdin.write(b"set logging on\n")
-            gdb.stdin.write(temp_run_command.encode('utf-8'))
-            gdb.stdin.write(b"bt\n\n\n\n\n\n\n\n\n\n\n")
-            gdb.stdin.write(b"set logging off\n")
-            gdb.wait()
+            self.write_to_gdb(gdb, b"set logging overwrite on\n")
+            print("hello")
+            self.write_to_gdb(gdb, b"set logging file mylog.txt\n")
+            self.write_to_gdb(gdb, b"set logging on\n")
+            self.write_to_gdb(gdb, temp_run_command.encode('utf-8'))
+            self.write_to_gdb(gdb, b"bt\n")
+            self.write_to_gdb(gdb, b"set logging off\n")
             type_of_bug = self.get_type_of_bug()
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
             self.copy_log_file(dest_dir, "mylog.txt")
             self.copy_crash_input(dest_dir, crash_file, crash_file_name)
 
+    def write_to_gdb(self, gdb, command):
+        gdb.stdin.write(command)
+        gdb.stdin.flush()
+        self.wait_gdb_prompt(gdb)
+
+    def wait_gdb_prompt(self, gdb):
+        while True:
+            output = gdb.stdout.readline()
+            output = output.rstrip()
+            if output == b"(gdb)":
+                break
+            else:
+                pass
 
     def get_type_of_bug(self):
         gdb_parser = GDB_Parser("mylog.txt", "Program received signal ")
