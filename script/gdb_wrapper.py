@@ -37,7 +37,7 @@ class GDB_Wrapper(object):
             gdb.sendline(temp_run_command)
             i = gdb.expect(['Program received signal', 'Unknown opcode'], timeout=3)
             gdb.sendline("bt")
-            gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
+            gdb.expect(['(gdb)', pexpect.EOF], timeout=20)
             gdb.sendline("set logging off")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
             if i == 0:
