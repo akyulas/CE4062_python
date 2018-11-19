@@ -35,7 +35,7 @@ class GDB_Wrapper(object):
             gdb.sendline("set logging on")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
             gdb.sendline(temp_run_command)
-            i = gdb.expect(['Program received signal', 'Unknown opcode', 'unsupported object type'], timeout=3)
+            i = gdb.expect(['Program received signal', 'Unknown opcode', 'unsupported object type', 'type error'], timeout=3)
             gdb.sendline("bt")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=20)
             gdb.sendline("set logging off")
@@ -46,6 +46,8 @@ class GDB_Wrapper(object):
                 type_of_bug = "Unknown opcode"
             elif i == 2:
                 type_of_bug = "Unsupported object type"
+            elif i == 3:
+                type_of_bug = "Type error"
             crash_file_name = self.get_name_of_crash_file(crash_file)
             dest_dir = self.create_dir_if_no_exist(type_of_bug, crash_file_name)
             self.copy_log_file(dest_dir, "mylog.txt")
