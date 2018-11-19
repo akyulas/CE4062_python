@@ -33,6 +33,7 @@ class GDB_Wrapper(object):
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
             gdb.sendline(temp_run_command)
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
+            sleep(0.5)
             gdb.sendline("bt")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
             gdb.sendline("set logging off")
