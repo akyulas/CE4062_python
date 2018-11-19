@@ -1,8 +1,7 @@
-import subprocess
 from shutil import copyfile
 from .parse_gdb import GDB_Parser
+from .utlilities import create_or_overwrite_log_file
 import os
-from time import sleep
 import pexpect
 
 class GDB_Wrapper(object):
@@ -14,6 +13,7 @@ class GDB_Wrapper(object):
         self.crash_files_triage_dir = crash_files_triage_dir
 
     def start_running_gdb(self):
+        create_or_overwrite_log_file()
         gdb = pexpect.spawn("gdb %s" % self.test_file_name)
         self.get_and_log_bt(gdb)
 
