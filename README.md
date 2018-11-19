@@ -12,7 +12,11 @@ Then you will need to install pexpect
 Pull from the repository
 `
 git init
+`
+`
 git remote add origin https://github.com/akyulas/CE4062_python.git
+`
+`
 git pull origin master
 `
 
