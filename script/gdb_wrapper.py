@@ -39,7 +39,7 @@ class GDB_Wrapper(object):
             gdb.sendline("bt")
             gdb.expect(['(gdb)', pexpect.EOF], timeout=20)
             gdb.sendline("set logging off")
-            gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
+            gdb.expect(['(gdb)', pexpect.EOF], timeout=10)
             if i == 0:
                 type_of_bug = self.get_type_of_bug()
             elif i == 1:
