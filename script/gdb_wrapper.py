@@ -27,6 +27,8 @@ class GDB_Wrapper(object):
         gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
         gdb.sendline("set pagination off")
         gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
+        gdb.sendline("set backtrace limit 10000")
+        gdb.expect(['(gdb)', pexpect.EOF], timeout=3)
         for crash_file in self.crash_files_iter:
             temp_run_command = self.run_command.replace("{}", crash_file)
             print(crash_file)
