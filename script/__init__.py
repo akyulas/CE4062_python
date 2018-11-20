@@ -21,7 +21,7 @@ if __name__ == '__main__':
         cxxfilt_obj.start()
     elif file_number == '2':
         objdump_obj = ObjDump()
-        objdump.start()
+        objdump_obj.start()
     elif file_number == '3':
         xed_obj = XED()
         xed_obj.start()
