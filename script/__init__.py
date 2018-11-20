@@ -36,6 +36,6 @@ if __name__ == '__main__':
         nm_new_obj.start()
     elif file_number == '7':
         strings_obj = Strings()
-        strings.start()
+        strings_obj.start()
     else:
         print("please run again and choose a valid number.")
