@@ -13,6 +13,6 @@ class ObjDump(object):
         crash_files = glob.glob(self.objdump_crash_directory)
         crash_files_iter = iter(crash_files)
         gdb_wrapper = GDB_Wrapper(self.objdump_file_name,
-                                  self.obdjump_run_command, crash_files_iter,
+                                  self.objdump_run_command, crash_files_iter,
                                   self.objdump_triage_directory)
         gdb_wrapper.start_running_gdb()
