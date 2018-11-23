@@ -1,3 +1,5 @@
+This has to be run from the root directory of your docker file.
+
 First you will need to install pip3
 `
 sudo apt-get update
